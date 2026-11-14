@@ -1,36 +1,901 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b1018">
-  <meta name="description" content="Шалун - голосовая рация для закрытых каналов, команды и своих людей.">
-  <title>Шалун | Связь без лишних слов</title>
-  <style>
-    :root { --bg:#0b1018; --bg-2:#101925; --panel:#131e2c; --text:#edf4fb; --muted:#91a3b7; --line:rgba(200,223,244,.13); --blue:#64a9ff; --green:#65d391; --radius:18px; }
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;color:var(--text);background:radial-gradient(circle at 82% 7%,rgba(57,122,224,.18),transparent 28rem),radial-gradient(circle at 10% 34%,rgba(43,101,156,.11),transparent 30rem),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;overflow-x:hidden} a{color:inherit;text-decoration:none}.wrap{width:min(1160px,calc(100% - 40px));margin:0 auto}
-    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:2}.brand{display:inline-flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.03em;font-size:20px}.brand-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#06101c;background:var(--blue);box-shadow:0 0 30px rgba(100,169,255,.3)}.nav-links{display:flex;align-items:center;gap:28px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--text)}.nav-download{color:var(--text);border:1px solid var(--line);border-radius:999px;padding:10px 16px}
-    .hero{min-height:700px;display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:60px;padding:62px 0 86px;position:relative}.hero-copy{position:relative;z-index:1}.eyebrow{color:var(--blue);text-transform:uppercase;letter-spacing:.19em;font-size:11px;font-weight:700;margin-bottom:18px}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(46px,6.1vw,82px);line-height:.98;letter-spacing:-.065em;max-width:650px;margin-bottom:25px}h1 span{color:var(--blue)}.lead{color:var(--muted);font-size:clamp(17px,2vw,20px);max-width:510px;margin-bottom:32px}.actions{display:flex;flex-wrap:wrap;gap:12px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:48px;padding:0 20px;border-radius:12px;font-size:15px;font-weight:750;transition:transform .25s ease,background .25s ease,border-color .25s ease}.btn:hover{transform:translateY(-2px)}.btn-primary{color:#06101c;background:var(--blue);box-shadow:0 12px 32px rgba(64,137,236,.25)}.btn-primary:hover{background:#87bdff}.btn-ghost{border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.025)}.btn-ghost:hover{border-color:rgba(100,169,255,.55);background:rgba(100,169,255,.08)}.hero-note{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px;margin-top:22px}.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(101,211,145,.1);animation:beat 2.2s ease-in-out infinite}@keyframes beat{50%{transform:scale(1.35);opacity:.7}}
-    .device-stage{min-height:570px;display:grid;place-items:center;position:relative}.device-stage:before,.device-stage:after{content:"";position:absolute;border:1px solid rgba(100,169,255,.2);border-radius:50%;width:440px;height:440px;animation:ring 7s ease-in-out infinite}.device-stage:after{width:570px;height:570px;opacity:.42;animation-delay:-2s}@keyframes ring{50%{transform:scale(1.06);opacity:.7}}.phone{width:min(300px,72vw);padding:9px;background:#05080d;border:1px solid rgba(219,238,255,.22);border-radius:31px;box-shadow:0 35px 80px rgba(0,0,0,.48),0 0 70px rgba(59,126,226,.2);transform:rotate(3deg);position:relative;z-index:1}.phone img{display:block;width:100%;border-radius:24px}.signal{position:absolute;right:-5px;bottom:72px;display:flex;gap:4px;align-items:end;height:58px;padding:13px;border:1px solid var(--line);border-radius:13px;background:rgba(15,28,43,.88);backdrop-filter:blur(16px);z-index:2}.signal i{width:4px;border-radius:4px;background:var(--blue);animation:bars 1.2s ease-in-out infinite alternate}.signal i:nth-child(1){height:15px;animation-delay:-.4s}.signal i:nth-child(2){height:29px;animation-delay:-.1s}.signal i:nth-child(3){height:22px;animation-delay:-.7s}.signal i:nth-child(4){height:37px;animation-delay:-.25s}@keyframes bars{to{transform:scaleY(.35);opacity:.5}}
-    .band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(13,23,35,.7)}.band-inner{min-height:84px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;gap:20px}.stat{display:flex;align-items:baseline;gap:10px}.stat strong{font-size:25px;letter-spacing:-.04em}.stat span{color:var(--muted);font-size:13px}section{padding:112px 0}.section-head{max-width:620px;margin-bottom:48px}h2{font-size:clamp(35px,5vw,58px);line-height:1.02;letter-spacing:-.06em;margin-bottom:16px}.section-head p{color:var(--muted);font-size:17px;max-width:520px}
-    .feature-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:22px;align-items:stretch}.feature-intro{min-height:450px;border:1px solid var(--line);border-radius:var(--radius);padding:34px;background:linear-gradient(145deg,rgba(100,169,255,.13),rgba(255,255,255,.025));display:flex;flex-direction:column;justify-content:space-between}.feature-intro h3{font-size:30px;line-height:1.05;letter-spacing:-.04em;max-width:300px}.feature-intro p{color:var(--muted);max-width:300px}.wave{height:100px;display:flex;align-items:center;gap:5px}.wave i{width:5px;border-radius:5px;background:var(--blue);height:var(--h);opacity:.8}.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.feature{border:1px solid var(--line);border-radius:var(--radius);padding:25px;background:rgba(255,255,255,.025);min-height:215px;transition:transform .25s ease,border-color .25s ease}.feature:hover{transform:translateY(-5px);border-color:rgba(100,169,255,.55)}.feature-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:var(--blue);background:rgba(100,169,255,.12);font-size:21px;margin-bottom:28px}.feature h3{font-size:19px;margin-bottom:8px}.feature p{color:var(--muted);font-size:14px;margin:0}
-    .screens-section{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.screens{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:end}.screen-card{margin:0}.screen-card:nth-child(2){transform:translateY(-36px)}.screen-frame{padding:6px;border:1px solid var(--line);border-radius:23px;background:#070b11;box-shadow:0 20px 45px rgba(0,0,0,.25)}.screen-frame img{width:100%;display:block;border-radius:17px}.screen-card figcaption{color:var(--muted);font-size:13px;margin-top:14px;padding-left:4px}.story{display:grid;grid-template-columns:.82fr 1.18fr;gap:80px;align-items:center}.story-copy h2{max-width:430px}.story-copy p{color:var(--muted);max-width:450px;font-size:17px}.story-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}.story-list li{display:flex;gap:12px;align-items:flex-start}.story-list b{color:var(--blue);font-size:18px}.story-list span{color:var(--muted);font-size:14px}.settings-showcase{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.settings-image{width:min(290px,80%);justify-self:center;padding:7px;background:#05080d;border:1px solid var(--line);border-radius:27px;transform:rotate(-3deg);box-shadow:0 25px 60px rgba(0,0,0,.35)}.settings-image img{display:block;width:100%;border-radius:21px}.download{padding:80px 0}.download-box{border:1px solid rgba(100,169,255,.3);border-radius:25px;padding:55px;display:flex;align-items:center;justify-content:space-between;gap:30px;background:linear-gradient(110deg,rgba(47,111,204,.22),rgba(255,255,255,.035))}.download-box h2{margin-bottom:10px}.download-box p{color:var(--muted);margin:0}footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-links{display:flex;gap:19px}.footer-links a:hover{color:var(--text)}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
-    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
-    @media (max-width:800px){.wrap{width:min(100% - 28px,560px)}.nav{height:68px}.nav-links a:not(.nav-download){display:none}.hero{min-height:auto;grid-template-columns:1fr;gap:30px;padding:65px 0 70px}h1{font-size:clamp(47px,14vw,70px)}.device-stage{min-height:420px}.device-stage:before{width:300px;height:300px}.device-stage:after{width:390px;height:390px}.phone{width:246px}.signal{right:3%;bottom:40px}.band-inner{grid-template-columns:1fr 1fr;padding:20px 0}.band-inner .stat:last-child{grid-column:1/-1}section{padding:78px 0}.feature-layout,.story,.settings-showcase{grid-template-columns:1fr;gap:20px}.feature-intro{min-height:330px}.screens{grid-template-columns:repeat(2,1fr);gap:12px}.screen-card:nth-child(2){transform:none}.screen-card figcaption{font-size:12px}.download-box{flex-direction:column;align-items:flex-start;padding:32px 24px}.footer-inner{align-items:flex-start;flex-direction:column}}@media (max-width:430px){.actions{flex-direction:column;align-items:stretch}.btn{width:100%}.feature-grid{grid-template-columns:1fr}.screens{gap:9px}}
-  </style>
-</head>
-<body>
-  <header class="wrap nav"><a class="brand" href="#top"><span class="brand-mark">⌁</span><span>Шалун</span></a><nav class="nav-links" aria-label="Основная навигация"><a href="#about">Возможности</a><a href="#screens">Экраны</a><a href="#settings">Настройки</a><a class="nav-download" href="http://83.141.95.161:8000/app/download">Скачать</a></nav></header>
-  <main id="top">
-    <section class="wrap hero"><div class="hero-copy"><div class="eyebrow">Голосовая рация для своих</div><h1>Связь без<br><span>лишних слов.</span></h1><p class="lead">Закрытые каналы, голосовой эфир, карта участников и всё, что нужно команде в движении.</p><div class="actions"><a class="btn btn-primary" href="http://83.141.95.161:8000/app/download">Скачать приложение <span>↓</span></a><a class="btn btn-ghost" href="#screens">Посмотреть экраны</a></div><div class="hero-note"><i class="live-dot"></i> Эфир готов. Нажми и говори.</div></div><div class="device-stage" aria-label="Экран рации Шалун"><div class="phone"><img src="assets/radio.jpg" alt="Экран рации Шалун с кнопкой Говорить"></div><div class="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div></section>
-    <div class="band"><div class="wrap band-inner"><div class="stat"><strong>PTT</strong><span>говори одним нажатием</span></div><div class="stat"><strong>GPS</strong><span>видь своих на карте</span></div><div class="stat"><strong>24/7</strong><span>канал всегда под рукой</span></div></div></div>
-    <section id="about" class="wrap"><div class="section-head reveal"><div class="eyebrow">Всё нужное в одном канале</div><h2>Не чат. Рабочая связь.</h2><p>Шалун помогает быстро услышать своих, понять, кто рядом, и держать канал под контролем.</p></div><div class="feature-layout"><article class="feature-intro reveal"><div><h3>Эфир свободен. Команда на связи.</h3><p>Нажми «ГОВОРИТЬ», когда нужно передать сообщение. Остальное приложение сделает само.</p></div><div class="wave" aria-hidden="true"><i style="--h:22px"></i><i style="--h:48px"></i><i style="--h:34px"></i><i style="--h:67px"></i><i style="--h:29px"></i><i style="--h:54px"></i><i style="--h:40px"></i><i style="--h:76px"></i><i style="--h:31px"></i><i style="--h:60px"></i><i style="--h:25px"></i><i style="--h:46px"></i><i style="--h:19px"></i><i style="--h:39px"></i></div></article><div class="feature-grid"><article class="feature reveal"><div class="feature-icon">◉</div><h3>Голосовой эфир</h3><p>Push-to-talk без лишних экранов и переписки.</p></article><article class="feature reveal"><div class="feature-icon">⌖</div><h3>Свои на карте</h3><p>Каждый сам решает, показывать ли свою геопозицию участникам.</p></article><article class="feature reveal"><div class="feature-icon">+</div><h3>Закрытые каналы</h3><p>Приглашения, заявки и управление участниками в одном месте.</p></article><article class="feature reveal"><div class="feature-icon">↗</div><h3>Профиль и режим</h3><p>Позывной, статус, фото и оформление под свой сценарий.</p></article></div></div></section>
-    <section id="screens" class="screens-section"><div class="wrap"><div class="section-head reveal"><div class="eyebrow">Так выглядит Шалун</div><h2>Настоящие экраны.<br>Никаких макетов.</h2><p>Рация, участники, карта и настройки собраны в одном понятном интерфейсе.</p></div><div class="screens"><figure class="screen-card reveal"><div class="screen-frame"><img src="assets/radio.jpg" alt="Экран рации Шалун"></div><figcaption>Рация и кнопка «Говорить»</figcaption></figure><figure class="screen-card reveal"><div class="screen-frame"><img src="assets/online.jpg" alt="Список участников канала"></div><figcaption>Участники канала</figcaption></figure><figure class="screen-card reveal"><div class="screen-frame"><img src="assets/map.jpg" alt="Карта участников"></div><figcaption>Карта своих</figcaption></figure><figure class="screen-card reveal"><div class="screen-frame"><img src="assets/settings.jpg" alt="Настройки профиля и канала"></div><figcaption>Профиль и темы</figcaption></figure></div></div></section>
-    <section class="wrap story"><div class="story-copy reveal"><div class="eyebrow">Контроль остаётся у тебя</div><h2>Настрой эфир под себя.</h2><p>Шумоподавление, тумблер, звук PTT, вибрация и сигнал передачи. Выбирай, как должна ощущаться связь.</p><ul class="story-list"><li><b>01</b><span>Сигнал передачи можно прослушать до выхода в эфир.</span></li><li><b>02</b><span>Затемнение в эфире помогает сосредоточиться на голосе.</span></li><li><b>03</b><span>Диагностика подсказывает, если что-то требует внимания.</span></li></ul></div><div class="settings-image reveal"><img src="assets/audio-settings.jpg" alt="Настройки звука и эфира в приложении Шалун"></div></section>
-    <section id="settings" class="wrap settings-showcase"><div class="settings-image reveal"><img src="assets/about-settings.jpg" alt="Раздел настроек приложения Шалун с версией и диагностикой"></div><div class="story-copy reveal"><div class="eyebrow">Прозрачно и понятно</div><h2>Приложение под контролем.</h2><p>Профиль редактируется, версия обновляется с сервера, диагностика проверяет связь и разрешения. Все важные действия собраны в настройках.</p><a class="btn btn-ghost" href="http://83.141.95.161:8000/privacy">Политика конфиденциальности</a></div></section>
-    <section id="download" class="download"><div class="wrap download-box reveal"><div><h2>Свои уже на связи.</h2><p>Скачай Шалун и создай канал для своей команды.</p></div><a class="btn btn-primary" href="http://83.141.95.161:8000/app/download">Скачать APK <span>↓</span></a></div></section>
-  </main>
-  <footer><div class="wrap footer-inner"><span>© 2026 Шалун</span><div class="footer-links"><a href="http://83.141.95.161:8000/privacy">Политика конфиденциальности</a><a href="https://t.me/Vandrey63">Связаться с разработчиком</a></div></div></footer>
-  <script>const observer=new IntersectionObserver((entries)=>entries.forEach((entry)=>{if(entry.isIntersecting)entry.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach((element)=>observer.observe(element));</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Заголовок и описание написаны под то, как ищут такую штуку:
+      «рация для водителей», «рация для бригады». Название человек
+      ещё не знает — искать он будет задачу, а не бренд.
+    -->
+    <title>Shalun 2 — рация для команды на Android</title>
+    <meta
+      name="description"
+      content="Голосовая связь для водителей, бригад и смен. Нажал — говоришь, отпустил — слушаешь. Каналы, роли, заявки, карта участников и SOS. Бесплатно, Android 7 и новее."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="Shalun 2" />
+    <meta property="og:title" content="Shalun 2 — рация для команды на Android" />
+    <meta
+      property="og:description"
+      content="Нажал — говоришь, отпустил — слушаешь. Каналы, роли, заявки, карта участников и SOS в одном приложении."
+    />
+    <meta property="og:image" content="assets/img/screen-radio.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <link rel="stylesheet" href="assets/css/tokens.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/sections.css" />
+
+    <!--
+      Разметка для поиска: приложение, платформа, цена.
+      Без выдуманных рейтингов и отзывов — их у нас нет.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Shalun 2",
+        "applicationCategory": "CommunicationApplication",
+        "operatingSystem": "Android 7.0+",
+        "softwareVersion": "1.9.23",
+        "inLanguage": "ru",
+        "description": "Голосовая рация для водителей, бригад и смен: каналы, роли, заявки на вход, карта участников и SOS.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Перейти к содержимому</a>
+
+    <header class="site-head">
+      <div class="wrap site-head__inner">
+        <a class="brand" href="#top" aria-label="Shalun 2 — к началу страницы">
+          <svg
+            class="brand__mark"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+            fill="none"
+          >
+            <rect width="32" height="32" rx="8" fill="#2563eb" />
+            <g stroke="#fff" stroke-width="2" stroke-linecap="round">
+              <path d="M16 25V15" />
+              <path d="M16 15 11.5 10.5" />
+              <path d="M16 15 20.5 10.5" />
+              <path d="M10 25h12" />
+            </g>
+            <circle cx="16" cy="9" r="2.4" fill="#fff" />
+          </svg>
+          Shalun 2
+        </a>
+
+        <nav class="site-nav" id="siteNav" aria-label="Разделы страницы">
+          <a href="#how">Как работает</a>
+          <a href="#features">Возможности</a>
+          <a href="#screens">Экраны</a>
+          <a href="#roles">Управление</a>
+          <a href="#install">Установка</a>
+        </nav>
+
+        <div class="site-head__actions">
+          <a class="btn btn--primary site-head__cta" href="#install">
+            Скачать
+          </a>
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="siteNav"
+            aria-label="Меню разделов"
+          >
+            <span class="nav-toggle__bars"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================= ПЕРВЫЙ ЭКРАН ================= -->
+      <section class="hero" id="top">
+        <div class="wrap hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow">Рация для Android</p>
+
+            <h1 class="h1 hero__title">
+              Голосовая связь для команды — одной кнопкой
+            </h1>
+
+            <p class="hero__lead">
+              Shalun 2 работает как рация, а не как мессенджер. Нажали —
+              говорите, отпустили — слушаете. Все, кто в канале, слышат вас
+              сразу, без звонков и набора сообщений.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#install">
+                <svg
+                  class="btn__icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+                Скачать для Android
+              </a>
+              <a class="btn btn--secondary" href="#how">Как это работает</a>
+            </div>
+
+            <p class="hero__note">
+              Android 7.0 и новее · 33,5 МБ · Бесплатно
+            </p>
+
+            <ul class="hero__points">
+              <li class="hero__point">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span><b>Один канал — слышат все.</b> Не нужно выбирать, кому звонить.</span>
+              </li>
+              <li class="hero__point">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span><b>Роли и модерация.</b> Заявки на вход, отключение микрофона, бан.</span>
+              </li>
+              <li class="hero__point">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span><b>Карта участников и SOS</b> создателю и админам канала.</span>
+              </li>
+            </ul>
+          </div>
+
+          <figure class="hero__device">
+            <div class="device">
+              <img
+                src="assets/img/screen-radio.jpg"
+                width="567"
+                height="1280"
+                alt="Экран рации Shalun 2: название канала, счётчик участников, кнопка «Говорить» и надпись «Эфир свободен»"
+                fetchpriority="high"
+              />
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ================= ПОЛОСА ФАКТОВ ================= -->
+      <section class="facts" aria-label="Коротко о продукте">
+        <div class="wrap facts__grid">
+          <div class="fact">
+            <p class="fact__value">Одна кнопка</p>
+            <p class="fact__label">Удержание или режим-тумблер</p>
+          </div>
+          <div class="fact">
+            <p class="fact__value">Три роли</p>
+            <p class="fact__label">Создатель, администратор, участник</p>
+          </div>
+          <div class="fact">
+            <p class="fact__value">Карта</p>
+            <p class="fact__label">Кто где, если включил показ</p>
+          </div>
+          <div class="fact">
+            <p class="fact__value">SOS</p>
+            <p class="fact__label">Тревога админам канала</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= КАК РАБОТАЕТ ================= -->
+      <section class="section" id="how">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Как это работает</p>
+            <h2 class="h2">Три шага до первого эфира</h2>
+            <p class="lead">
+              Регистрации по номеру телефона нет. Нужен позывной — имя, по
+              которому вас слышат в канале.
+            </p>
+          </div>
+
+          <ol class="steps">
+            <li class="step">
+              <h3 class="step__title">Установите приложение</h3>
+              <p class="step__text">
+                Скачайте APK и откройте его. Android спросит разрешение на
+                установку — это обычная установка не из магазина.
+              </p>
+            </li>
+            <li class="step">
+              <h3 class="step__title">Возьмите позывной</h3>
+              <p class="step__text">
+                Имя и маршрут, например «Андрей 752, №28». Затем войдите в
+                канал по коду-приглашению или найдите открытый в поиске.
+              </p>
+            </li>
+            <li class="step">
+              <h3 class="step__title">Нажмите и говорите</h3>
+              <p class="step__text">
+                Кнопка «Говорить» на главном экране. Держите — передаёте,
+                отпустили — снова слушаете канал.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================= ВОЗМОЖНОСТИ ================= -->
+      <section class="section section--surface" id="features">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Возможности</p>
+            <h2 class="h2">Что есть в приложении</h2>
+            <p class="lead">
+              Только то, что работает сейчас. Не список планов на будущее.
+            </p>
+          </div>
+
+          <div class="features">
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 10a7 7 0 0 0 14 0" />
+                  <path d="M12 17v4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Передача одной кнопкой</h3>
+                <p class="feature__text">
+                  Удержание или режим-тумблер: одно нажатие включает микрофон,
+                  второе выключает. Удобно за рулём, когда некогда держать
+                  палец на экране.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M4 12v2M8 8v8M12 5v14M16 8v8M20 12v2" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Шумоподавление</h3>
+                <p class="feature__text">
+                  Давит фоновый шум микрофона: двигатель, ветер, цех. Полной
+                  тишины не обещаем — это подавление, а не студия.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M11 5 6 9H2v6h4l5 4z" />
+                  <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Сигнал окончания передачи</h3>
+                <p class="feature__text">
+                  Пять вариантов звука или полное отключение. У каждого
+                  участника свой — как на настоящей рации.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="6" y="2" width="12" height="20" rx="2" />
+                  <path d="M10 18h4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Эфирный экран</h3>
+                <p class="feature__text">
+                  Крупный позывной говорящего на весь экран — видно из
+                  держателя. Пока говорит другой, экран притухает и не слепит
+                  ночью.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9" />
+                  <path d="M3 4v5h5" />
+                  <path d="M12 8v4l3 2" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">История эфира</h3>
+                <p class="feature__text">
+                  Последние 200 передач: позывной, время, длительность. Видно,
+                  кто выходил в эфир и когда.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="m16 11 2 2 4-4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Статусы участников</h3>
+                <p class="feature__text">
+                  «На связи», «в пути», «сплю», «занят», «выходной» или свой
+                  текст до 20 символов. Статус видят все в канале.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20h.01" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Каналы и приглашения</h3>
+                <p class="feature__text">
+                  Открытые и приватные каналы, поиск, избранное. Вход по
+                  коду-приглашению или QR, свой фон канала.
+                </p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="feature__title">Заявки и модерация</h3>
+                <p class="feature__text">
+                  Заявка на вход с причиной отказа, отключение микрофона и
+                  звука, удаление из канала и бан.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ЭКРАНЫ ================= -->
+      <section class="section" id="screens">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Экраны</p>
+            <h2 class="h2">Как это выглядит в телефоне</h2>
+            <p class="lead">
+              Настоящие снимки приложения. Ничего не дорисовано и не
+              переставлено для красоты.
+            </p>
+          </div>
+
+          <div class="screens">
+            <figure class="screen">
+              <div class="screen__frame">
+                <img
+                  src="assets/img/screen-radio.jpg"
+                  width="567"
+                  height="1280"
+                  loading="lazy"
+                  alt="Экран рации: кнопка «Говорить» по центру, счётчик участников сверху"
+                />
+              </div>
+              <figcaption>
+                <p class="screen__title">Рация</p>
+                <p class="screen__text">
+                  Эфир, кнопка передачи и кто сейчас на связи.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="screen">
+              <div class="screen__frame">
+                <img
+                  src="assets/img/screen-online.jpg"
+                  width="567"
+                  height="1280"
+                  loading="lazy"
+                  alt="Список участников канала с позывными, статусами и метками ролей"
+                />
+              </div>
+              <figcaption>
+                <p class="screen__title">Участники</p>
+                <p class="screen__text">
+                  Позывные, статусы, метка создателя, кто в сети.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="screen">
+              <div class="screen__frame">
+                <img
+                  src="assets/img/screen-map.jpg"
+                  width="567"
+                  height="1280"
+                  loading="lazy"
+                  alt="Карта с отметками участников канала"
+                />
+              </div>
+              <figcaption>
+                <p class="screen__title">Карта</p>
+                <p class="screen__text">
+                  Кто где — если участник включил показ местоположения.
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="screen">
+              <div class="screen__frame">
+                <img
+                  src="assets/img/screen-settings.jpg"
+                  width="567"
+                  height="1280"
+                  loading="lazy"
+                  alt="Экран настроек: профиль, темы оформления, управление каналом"
+                />
+              </div>
+              <figcaption>
+                <p class="screen__title">Настройки</p>
+                <p class="screen__text">
+                  Профиль, темы, звук, эфир, геолокация, обновления.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= РОЛИ ================= -->
+      <section class="section section--surface" id="roles">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Управление каналом</p>
+            <h2 class="h2">Три роли, разные права</h2>
+            <p class="lead">
+              Канал ведёт создатель. Он назначает администраторов, а те
+              поддерживают порядок: принимают своих, отключают лишних.
+            </p>
+          </div>
+
+          <div class="roles">
+            <article class="role role--creator">
+              <span class="role__badge">Создатель</span>
+              <h3 class="role__title">Владелец канала</h3>
+              <ul class="role__list">
+                <li>Назначает и снимает администраторов</li>
+                <li>Меняет код-приглашение</li>
+                <li>Удаляет канал для всех участников</li>
+              </ul>
+            </article>
+
+            <article class="role">
+              <span class="role__badge">Администратор</span>
+              <h3 class="role__title">Поддерживает порядок</h3>
+              <ul class="role__list">
+                <li>Принимает и отклоняет заявки</li>
+                <li>Отключает микрофон и звук</li>
+                <li>Удаляет из канала и банит</li>
+              </ul>
+            </article>
+
+            <article class="role">
+              <span class="role__badge">Участник</span>
+              <h3 class="role__title">Работает в эфире</h3>
+              <ul class="role__list">
+                <li>Говорит в канале и слушает</li>
+                <li>Видит участников и карту</li>
+                <li>Отправляет SOS админам</li>
+              </ul>
+            </article>
+          </div>
+
+          <table class="actions">
+            <caption>Что доступно каждой роли</caption>
+            <thead>
+              <tr>
+                <th scope="col">Действие</th>
+                <th scope="col">Создатель</th>
+                <th scope="col">Админ</th>
+                <th scope="col">Участник</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Принять заявку</th>
+                <td class="yes" data-role="Создатель">да</td>
+                <td class="yes" data-role="Админ">да</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Отклонить с причиной</th>
+                <td class="yes" data-role="Создатель">да</td>
+                <td class="yes" data-role="Админ">да</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Отключить микрофон</th>
+                <td class="yes" data-role="Создатель">да</td>
+                <td class="yes" data-role="Админ">да</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Удалить из канала</th>
+                <td class="yes" data-role="Создатель">да</td>
+                <td class="yes" data-role="Админ">да</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Забанить</th>
+                <td class="yes" data-role="Создатель">да</td>
+                <td class="yes" data-role="Админ">да</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Назначить админа</th>
+                <td class="own" data-role="Создатель">только создатель</td>
+                <td class="no" data-role="Админ">—</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+              <tr>
+                <th scope="row">Удалить канал</th>
+                <td class="own" data-role="Создатель">только создатель</td>
+                <td class="no" data-role="Админ">—</td>
+                <td class="no" data-role="Участник">—</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="muted actions-mobile-note" style="margin-top: var(--s3)">
+            Роли, которым действие недоступно, в строке не показаны.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= КАРТА И SOS ================= -->
+      <section class="section" id="map">
+        <div class="wrap">
+          <div class="split">
+            <div class="split__media">
+              <div class="device">
+                <img
+                  src="assets/img/screen-map.jpg"
+                  width="567"
+                  height="1280"
+                  loading="lazy"
+                  alt="Карта участников канала в приложении Shalun 2"
+                />
+              </div>
+            </div>
+
+            <div class="split__body">
+              <p class="eyebrow">Карта и SOS</p>
+              <h2 class="h2">Видно, кто где</h2>
+
+              <p>
+                Карта показывает участников канала, которые сами включили
+                показ местоположения. Отметка обновляется, пока приложение
+                открыто; выключили — отметка убирается с карты.
+              </p>
+              <p>
+                Кнопка SOS отправляет тревогу создателю и администраторам
+                канала: позывной, канал и координаты, если телефон их отдал.
+                Тревога приходит плашкой и видна на любом экране приложения.
+              </p>
+
+              <div class="caution">
+                <b>Как это работает на самом деле.</b> SOS — уведомление
+                внутри приложения. Оно зависит от интернета и от того, что
+                админ в этот момент в сети. Гарантированной доставки нет, и
+                экстренные службы оно не заменяет.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= УСТАНОВКА ================= -->
+      <section class="section section--surface" id="install">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Установка</p>
+            <h2 class="h2">Поставьте и попробуйте</h2>
+            <p class="lead">
+              Приложение ставится напрямую, без магазина. Обновления приходят
+              изнутри: «Настройки → Проверить обновления».
+            </p>
+          </div>
+
+          <div class="install">
+            <ol class="install__steps">
+              <li class="install__step">
+                <span>
+                  Нажмите <b>«Скачать APK»</b> и дождитесь загрузки файла.
+                </span>
+              </li>
+              <li class="install__step">
+                <span>
+                  Откройте файл. Android предупредит об установке из
+                  неизвестного источника — разрешите её для этого файла.
+                </span>
+              </li>
+              <li class="install__step">
+                <span>
+                  Запустите приложение, введите <b>позывной</b> и, если нужно,
+                  маршрут.
+                </span>
+              </li>
+              <li class="install__step">
+                <span>
+                  Войдите в канал по коду-приглашению или найдите открытый в
+                  поиске. Дальше — кнопка «Говорить».
+                </span>
+              </li>
+            </ol>
+
+            <div class="specs">
+              <div class="specs__head">Файл приложения</div>
+              <dl>
+                <div class="specs__row">
+                  <dt>Версия</dt>
+                  <dd>1.9.23</dd>
+                </div>
+                <div class="specs__row">
+                  <dt>Размер</dt>
+                  <dd>33,5 МБ</dd>
+                </div>
+                <div class="specs__row">
+                  <dt>Система</dt>
+                  <dd>Android 7.0+</dd>
+                </div>
+                <div class="specs__row">
+                  <dt>Архитектура</dt>
+                  <dd>arm64</dd>
+                </div>
+                <div class="specs__row">
+                  <dt>Пакет</dt>
+                  <dd>ru.syzran.shalun2</dd>
+                </div>
+                <div class="specs__row">
+                  <dt>Цена</dt>
+                  <dd>Бесплатно</dd>
+                </div>
+              </dl>
+              <div class="specs__foot">
+                <a
+                  class="btn btn--primary"
+                  href="http://83.141.95.161:8000/app/download"
+                >
+                  Скачать APK
+                </a>
+                <p class="specs__note">
+                  Установка поверх предыдущей версии сохраняет данные и каналы.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ОГРАНИЧЕНИЯ ================= -->
+      <section class="section" id="limits">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Ограничения</p>
+            <h2 class="h2">Чего приложение не делает</h2>
+            <p class="lead">
+              Чтобы не было сюрпризов в неподходящий момент — сразу и прямо.
+            </p>
+          </div>
+
+          <div class="limits">
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Не работает без интернета.</b> Офлайн-режима нет: нужен
+                доступ к серверу рации.
+              </p>
+            </div>
+
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Не заменяет экстренные службы.</b> SOS — внутреннее
+                уведомление админам канала, а не вызов помощи.
+              </p>
+            </div>
+
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Нет версии для iOS.</b> Только Android 7 и новее,
+                архитектура arm64.
+              </p>
+            </div>
+
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Не записывает разговоры.</b> В истории остаётся только факт
+                передачи: позывной, время, длительность.
+              </p>
+            </div>
+
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Сквозного шифрования нет.</b> Такой функции в приложении
+                нет, и заявлять её мы не будем.
+              </p>
+            </div>
+
+            <div class="limit">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m6 6 12 12" />
+              </svg>
+              <p>
+                <b>Качество зависит от сети.</b> Связь ограничена интернетом,
+                телефоном и шумом вокруг.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ПРИЗЫВ ================= -->
+      <section class="cta">
+        <div class="wrap cta__inner">
+          <div>
+            <h2 class="cta__title">Соберите свой канал</h2>
+            <p class="cta__text">
+              Поставьте приложение, создайте канал и пригласите своих. Дальше —
+              только кнопка «Говорить».
+            </p>
+          </div>
+          <div class="cta__actions">
+            <a
+              class="btn btn--primary"
+              href="http://83.141.95.161:8000/app/download"
+            >
+              Скачать для Android
+            </a>
+            <a class="btn btn--light" href="https://t.me/Vandrey63">
+              Написать разработчику
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <div class="site-foot__grid">
+          <div>
+            <a class="brand" href="#top">
+              <svg
+                class="brand__mark"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+                fill="none"
+              >
+                <rect width="32" height="32" rx="8" fill="#2563eb" />
+                <g stroke="#fff" stroke-width="2" stroke-linecap="round">
+                  <path d="M16 25V15" />
+                  <path d="M16 15 11.5 10.5" />
+                  <path d="M16 15 20.5 10.5" />
+                  <path d="M10 25h12" />
+                </g>
+                <circle cx="16" cy="9" r="2.4" fill="#fff" />
+              </svg>
+              Shalun 2
+            </a>
+            <p class="site-foot__desc">
+              Голосовая рация для водителей, бригад и смен. Android 7 и новее,
+              arm64.
+            </p>
+          </div>
+
+          <nav class="site-foot__links" aria-label="Ссылки">
+            <a href="https://t.me/Vandrey63">Telegram разработчика</a>
+            <a href="https://godonate.ru/@shalun3">Поддержать проект</a>
+            <a href="http://83.141.95.161:8000/privacy"
+              >Политика конфиденциальности</a
+            >
+          </nav>
+        </div>
+
+        <div class="site-foot__bottom">
+          <p>
+            Shalun 2 — не средство спасения жизни и не замена экстренным
+            службам. Связь зависит от интернета и состояния сервера.
+          </p>
+          <p>© 2026 Shalun 2</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/ui.js" defer></script>
+  </body>
 </html>
