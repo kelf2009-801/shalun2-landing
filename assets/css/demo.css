@@ -1,0 +1,482 @@
+/* Интерактивная демонстрация передачи.
+   Это не скриншот и не видео: кнопку можно нажать, она отзовётся,
+   пойдёт волна и счётчик. Микрофон не используется — это имитация
+   интерфейса, и подпись об этом стоит рядом.
+
+   Цвета взяты из самого приложения (тема «Ночной дозор»), чтобы демонстрация
+   выглядела как настоящий экран, а не как придуманный макет. */
+
+.demo {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: clamp(var(--s6), 5vw, var(--s8));
+  align-items: center;
+}
+
+/* ================= ЭКРАН ================= */
+
+.demo__device {
+  position: relative;
+  justify-self: center;
+  width: min(320px, 100%);
+  padding: 10px;
+  background: #111827;
+  border-radius: var(--r-device);
+  box-shadow: var(--shadow-lg);
+}
+
+.demo__screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 540px;
+  padding: 0;
+  background: #0d1320;
+  border-radius: 17px;
+  overflow: hidden;
+  color: #eff3fa;
+  font-family: var(--font-body);
+}
+
+/* --- шапка канала --- */
+
+.demo__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: 18px 16px 12px;
+}
+
+.demo__chan {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.demo__chan-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.demo__chan-name svg {
+  width: 16px;
+  height: 16px;
+  color: #4da3ff;
+}
+
+.demo__chan-sub {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #8792a8;
+}
+
+/* Точка «онлайн» пульсирует: живой признак присутствия.
+   Останавливается при reduced-motion. */
+.demo__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4da3ff;
+  animation: demo-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes demo-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.demo__chan-status {
+  margin-top: 3px;
+  font-size: 10px;
+  font-style: italic;
+  color: #4da3ff;
+  letter-spacing: 0.02em;
+}
+
+.demo__head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8792a8;
+}
+
+.demo__head-actions svg {
+  width: 18px;
+  height: 18px;
+}
+
+.demo__power {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #ff5c7a;
+}
+
+/* --- громкость --- */
+
+.demo__vol {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 14px;
+  color: #8792a8;
+}
+
+.demo__vol svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.demo__vol-track {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: #202b40;
+}
+
+.demo__vol-fill {
+  position: absolute;
+  inset: 0 45% 0 0;
+  border-radius: 2px;
+  background: #4da3ff;
+}
+
+.demo__vol-knob {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4da3ff;
+  transform: translate(-50%, -50%);
+}
+
+/* --- центральная зона --- */
+
+.demo__air {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 8px 16px 20px;
+}
+
+.demo__label {
+  font-size: 0.875rem;
+  color: #8792a8;
+  transition: color var(--t-base) var(--ease);
+}
+
+.demo.is-live .demo__label {
+  color: #ff5c7a;
+}
+
+/* Кнопка передачи: та же форма, что в приложении — круг с микрофоном. */
+.demo__ptt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 2px solid #4da3ff;
+  background: rgba(77, 163, 255, 0.06);
+  color: #4da3ff;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* Удержание не должно утягивать страницу в скролл на телефоне. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--t-base) var(--ease),
+    border-color var(--t-base) var(--ease), color var(--t-base) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+
+.demo__ptt svg {
+  width: 30px;
+  height: 30px;
+}
+
+.demo__ptt:hover {
+  background: rgba(77, 163, 255, 0.12);
+}
+
+.demo__ptt:active {
+  transform: scale(0.97);
+}
+
+/* Кольца расходятся от кнопки во время передачи. */
+.demo__ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid #ff5c7a;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.demo.is-live .demo__ptt {
+  border-color: #ff5c7a;
+  color: #ff5c7a;
+  background: rgba(255, 92, 122, 0.08);
+}
+
+.demo.is-live .demo__ring {
+  animation: demo-ring 1.8s ease-out infinite;
+}
+
+.demo.is-live .demo__ring:nth-of-type(2) {
+  animation-delay: 0.6s;
+}
+
+@keyframes demo-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.32);
+  }
+}
+
+.demo__hint {
+  font-size: 11px;
+  color: #8792a8;
+  text-align: center;
+  min-height: 16px;
+  transition: color var(--t-base) var(--ease);
+}
+
+.demo.is-live .demo__hint {
+  color: #eff3fa;
+}
+
+/* --- волна --- */
+
+/* Столбики стоят всегда, но «дышат» только во время передачи:
+   постоянная анимация на телефоне греет батарею зря. */
+.demo__wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 40px;
+  width: 100%;
+}
+
+/* В покое волна — не ряд точек, а приглушённый силуэт сигнала:
+   высоты те же, что при передаче, но взяты на четверть.
+   Так видно, что здесь будет волна, и нет «пустоты» под кнопкой. */
+.demo__bar {
+  width: 3px;
+  height: calc(var(--h, 26px) * 0.28);
+  border-radius: 2px;
+  background: #2b3a54;
+  transition: background var(--t-base) var(--ease),
+    height 260ms var(--ease);
+}
+
+.demo.is-live .demo__bar {
+  background: #ff5c7a;
+  animation: demo-bar 700ms ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+@keyframes demo-bar {
+  from {
+    height: calc(var(--h, 26px) * 0.28);
+  }
+  to {
+    height: var(--h, 26px);
+  }
+}
+
+/* --- счётчик --- */
+
+.demo__timer {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #8792a8;
+}
+
+.demo__timer b {
+  font-variant-numeric: tabular-nums;
+  color: #eff3fa;
+  font-weight: 600;
+}
+
+/* --- нижняя навигация --- */
+
+.demo__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 10px 8px 14px;
+  border-top: 1px solid #1b2436;
+  background: #0a0f1a;
+}
+
+.demo__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  color: #6b7790;
+}
+
+.demo__tab svg {
+  width: 17px;
+  height: 17px;
+}
+
+.demo__tab.is-active {
+  color: #4da3ff;
+}
+
+/* ================= ПОЯСНЕНИЕ ================= */
+
+.demo__side {
+  display: grid;
+  gap: var(--s4);
+  max-width: 46ch;
+}
+
+.demo__side .h3 {
+  margin: 0;
+}
+
+.demo__side p {
+  font-size: var(--text-base);
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+/* Список состояний: показывает, что происходит на каждом шаге. */
+.demo__states {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  font-size: var(--text-sm);
+}
+
+.demo__state {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: var(--s3);
+  align-items: baseline;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.demo__state b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Маркер состояния переключается вместе с кнопкой: связь видна глазом. */
+.demo__state::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line);
+  transition: background var(--t-base) var(--ease);
+}
+
+.demo__state[data-state="idle"]::before {
+  background: var(--ok);
+}
+
+.demo.is-live .demo__state[data-state="idle"]::before {
+  background: var(--line);
+}
+
+.demo.is-live .demo__state[data-state="live"]::before {
+  background: var(--danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14);
+}
+
+.demo__note {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+/* ================= АДАПТИВ ================= */
+
+@media (max-width: 860px) {
+  .demo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s6);
+  }
+
+  .demo__device {
+    width: min(300px, 82vw);
+  }
+
+  .demo__side {
+    max-width: none;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 420px) {
+  .demo__screen {
+    min-height: 500px;
+  }
+
+  .demo__ptt {
+    width: 132px;
+    height: 132px;
+  }
+}
+
+/* ================= УМЕНЬШЕНИЕ ДВИЖЕНИЯ ================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .demo__dot,
+  .demo.is-live .demo__ring,
+  .demo.is-live .demo__bar {
+    animation: none;
+  }
+
+  /* Волна остаётся видимой, но статичной: состояние передачи
+     по-прежнему читается по цвету и подписи. */
+  .demo.is-live .demo__bar {
+    background: #ff5c7a;
+  }
+}

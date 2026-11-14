@@ -1,0 +1,282 @@
+/* Движение и интерактивные состояния.
+   Отдельным файлом, потому что это слой поведения, а не вёрстки:
+   композиция и цвета живут в sections.css и не должны меняться
+   из-за того, что мы добавили hover или появление секций.
+
+   Правило производительности: анимируем только opacity и transform.
+   Они не вызывают пересчёт макета, поэтому телефон не греется. */
+
+/* ================= ПОЯВЛЕНИЕ ПРИ ЗАГРУЗКЕ ================= */
+
+/* Заголовок, текст, кнопки — по очереди. Задержки в base.css. */
+
+/* Телефон входит справа с лёгким увеличением: движение читается как
+   «предмет поставили на стол», а не «блок выехал из-за края». */
+@keyframes hero-device-in {
+  from {
+    opacity: 0;
+    transform: translate3d(28px, 10px, 0) scale(0.955);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.hero__device {
+  animation: hero-device-in 720ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+/* Мягкое «дыхание» корпуса: 6 px за 9 секунд. Заметно как жизнь,
+   не заметно как анимация. */
+@keyframes device-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.hero__device .device {
+  animation: device-float 9s ease-in-out 1s infinite;
+}
+
+/* Световое пятно под телефоном дышит в такт: предмет стоит на свету. */
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.hero__device::after {
+  animation: glow-breathe 9s ease-in-out 1s infinite;
+}
+
+/* ================= ПОЯВЛЕНИЕ СЕКЦИЙ ================= */
+
+/* Класс .reveal и .js-motion ставит скрипт, а не разметка.
+   ПОЧЕМУ так: если скрипт не доехал или упал, классы не появятся и весь
+   контент останется видимым. Скрывать текст средствами CSS «на всякий
+   случай» — значит рисковать пустой страницей.
+
+   ПОЧЕМУ translate, а не transform: transform занят эффектами наведения
+   (подъём карточек, поворот иконок). Если появление тоже писать в transform,
+   оно перебивает hover по специфичности, и карточки перестают реагировать.
+   translate и transform складываются, поэтому слои не конфликтуют. */
+.js-motion .reveal {
+  opacity: 0;
+  translate: 0 18px;
+  transition: opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    translate 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 70ms);
+  /* Подсказка браузеру: слой готов к анимации, без скачка в первом кадре. */
+  will-change: opacity, translate;
+}
+
+.js-motion .reveal.is-in {
+  opacity: 1;
+  translate: none;
+}
+
+/* После появления подсказку снимаем: держать слой в памяти незачем. */
+.reveal.is-done {
+  will-change: auto;
+}
+
+/* ================= КНОПКИ ================= */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn__icon,
+.btn__arrow {
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn--primary:hover .btn__icon {
+  transform: translateY(2px);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+.btn:focus-visible {
+  outline-offset: 3px;
+}
+
+/* Блик по кнопке при наведении: узкая полоса света, проходит один раз.
+   Только на устройствах с мышью — на телефоне hover не существует. */
+@media (hover: hover) and (pointer: fine) {
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .btn:hover::after {
+    transform: translateX(120%);
+  }
+}
+
+/* ================= НАВИГАЦИЯ ================= */
+
+.site-nav a {
+  position: relative;
+}
+
+/* Подчёркивание растёт слева направо: направление чтения совпадает
+   с направлением движения, поэтому не отвлекает. */
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ================= ВОЗМОЖНОСТИ ================= */
+
+.feature {
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature__icon {
+  transition: background 260ms ease, color 260ms ease,
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Иконка чуть поворачивается и заливается акцентом — отклик на наведение,
+     который видно боковым зрением. */
+  .feature:hover .feature__icon {
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.06) rotate(-4deg);
+  }
+}
+
+/* ================= ЭКРАНЫ ================= */
+
+.screen__frame {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 280ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .screen:hover .screen__frame {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 56px -16px rgba(15, 23, 42, 0.24),
+      0 10px 20px -10px rgba(15, 23, 42, 0.1);
+  }
+}
+
+/* ================= ШАГИ ================= */
+
+.step::before {
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 300ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .step:hover::before {
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
+  }
+}
+
+/* ================= РОЛИ ================= */
+
+.role {
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 260ms ease, border-color 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .role:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px -12px rgba(15, 23, 42, 0.14);
+    border-color: #cbd5e1;
+  }
+}
+
+/* ================= ССЫЛКИ ================= */
+
+.site-foot__links a {
+  display: inline-block;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-foot__links a:hover {
+    transform: translateX(3px);
+  }
+}
+
+/* ================= ОГРАНИЧЕНИЯ ================= */
+
+.limit svg {
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .limit:hover svg {
+    color: var(--ink-2);
+    transform: rotate(-6deg) scale(1.08);
+  }
+}
+
+/* ================= УВАЖЕНИЕ К НАСТРОЙКЕ ================= */
+
+/* Всё, что двигалось само, останавливается. Состояния (нажатие, передача)
+   продолжают работать — они несут смысл, а не украшают. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__device,
+  .hero__device .device,
+  .hero__device::after {
+    animation: none !important;
+  }
+
+  .js-motion .reveal,
+  .js-motion .reveal.is-in {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+
+  .btn::after {
+    display: none;
+  }
+}
