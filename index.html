@@ -60,11 +60,15 @@
           return;
         }
         d.className += ' js-motion';
+        // Страховка: снимаем скрытие только если скрипт секций вообще не
+        // отработал. Проверять «показался ли хоть один блок» нельзя: при
+        // загрузке секции ниже первого экрана законно ещё не видны, и такая
+        // проверка выключала бы анимацию на всей странице.
         window.setTimeout(function () {
-          if (!document.querySelector('.reveal.is-in')) {
+          if (!document.querySelector('.reveal')) {
             d.classList.remove('js-motion');
           }
-        }, 2500);
+        }, 2000);
       })();
     </script>
 
